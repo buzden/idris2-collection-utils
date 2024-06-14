@@ -1,0 +1,20 @@
+package collection-utils
+
+authors = "Denis Buzdalov"
+
+brief = "Non-standard functions for standard Idris 2 collections"
+
+license = "Apache-2.0"
+
+sourcedir = "src"
+builddir = ".build"
+
+depends = best-alternative
+        , dependent-vect
+        , i-hate-parens
+
+modules = Data.Collections.Analysis
+        , Data.List.Extra
+        , Data.SortedMap.Extra
+        , Data.SortedSet.Extra
+        , Data.Vect.Extra

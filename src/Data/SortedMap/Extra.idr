@@ -3,7 +3,7 @@ module Data.SortedMap.Extra
 import Data.List
 import Data.SortedMap
 
-import Syntax.IHateParens
+import public Syntax.IHateParens
 
 %default total
 

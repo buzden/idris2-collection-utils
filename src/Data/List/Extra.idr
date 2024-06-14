@@ -6,7 +6,7 @@ import Data.List.Lazy
 import Data.Vect
 import Data.Vect.Dependent
 
-import Syntax.IHateParens
+import public Syntax.IHateParens
 
 %default total
 
