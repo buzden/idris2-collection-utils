@@ -14,6 +14,7 @@ depends = best-alternative
         , i-hate-parens
 
 modules = Data.Collections.Analysis
+        , Data.Cozippable
         , Data.List.Extra
         , Data.SortedMap.Extra
         , Data.SortedSet.Extra
