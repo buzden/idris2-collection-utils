@@ -3,33 +3,3 @@ type = "local"
 path = "."
 ipkg = "collection-utils.ipkg"
 test = "tests/tests.ipkg"
-
-# To be removed as soon as they are in pack collection:
-
-[custom.all.best-alternative]
-type   = "git"
-url    = "https://github.com/buzden/idris2-best-alternative"
-commit = "master"
-ipkg   = "best-alternative.ipkg"
-test   = "tests/tests.ipkg"
-
-[custom.all.dependent-vect]
-type   = "git"
-url    = "https://github.com/buzden/idris2-dependent-vect"
-commit = "master"
-ipkg   = "dependent-vect.ipkg"
-test   = "tests/tests.ipkg"
-
-[custom.all.fin-lizzie]
-type   = "git"
-url    = "https://github.com/buzden/idris2-fin-lizzie"
-commit = "master"
-ipkg   = "fin-lizzie.ipkg"
-test   = "tests/tests.ipkg"
-
-[custom.all.i-hate-parens]
-type   = "git"
-url    = "https://github.com/buzden/idris2-i-hate-parens"
-commit = "master"
-ipkg   = "i-hate-parens.ipkg"
-test   = "tests/tests.ipkg"
