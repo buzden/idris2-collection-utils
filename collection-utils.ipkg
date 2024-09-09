@@ -15,6 +15,7 @@ depends = best-alternative
 
 modules = Data.Collections.Analysis
         , Data.List.Extra
+        , Data.List.Lazy.Extra
         , Data.SortedMap.Extra
         , Data.SortedSet.Extra
         , Data.Vect.Extra
