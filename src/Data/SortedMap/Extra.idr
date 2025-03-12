@@ -11,6 +11,14 @@ export
 mapMaybe : Ord k => (a -> Maybe b) -> SortedMap k a -> SortedMap k b
 mapMaybe f = SortedMap.fromList . mapMaybe (\(k, a) => (k,) <$> f a) . SortedMap.toList
 
+export
+mapWithKey : Ord k => (k -> a -> b) -> SortedMap k a -> SortedMap k b
+mapWithKey f = fromList . map (\(k, x) => (k, f k x)) . SortedMap.toList
+
+public export %inline
+mapWithKey' : Ord k => SortedMap k a -> (k -> a -> b) -> SortedMap k b
+mapWithKey' = flip mapWithKey
+
 ----------------------------------------------------------
 --- Properties of collections (most actually unproved) ---
 ----------------------------------------------------------
