@@ -7,11 +7,11 @@ import Data.SortedSet
 -- Not really a functor's `map`, because map fusion law does not hold
 export
 mapIn : Ord b => (a -> b) -> SortedSet a -> SortedSet b
-mapIn f = fromList . map f . SortedSet.toList
+mapIn f = fromList . map f . Prelude.toList
 
 export
 mapInMaybe : Ord b => (a -> Maybe b) -> SortedSet a -> SortedSet b
-mapInMaybe f = fromList . mapMaybe f . SortedSet.toList
+mapInMaybe f = fromList . mapMaybe f . Prelude.toList
 
 export
 fromFoldable : Ord a => Foldable f => f a -> SortedSet a
