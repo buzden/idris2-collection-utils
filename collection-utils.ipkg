@@ -19,4 +19,5 @@ modules = Data.Collections.Analysis
         , Data.List.Lazy.Extra
         , Data.SortedMap.Extra
         , Data.SortedSet.Extra
+        , Data.Vect.Ex
         , Data.Vect.Extra
