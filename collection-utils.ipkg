@@ -12,6 +12,7 @@ builddir = ".build"
 depends = best-alternative
         , dependent-vect
         , i-hate-parens
+        , fin-lizzie
 
 modules = Data.Collections.Analysis
         , Data.List.Ex

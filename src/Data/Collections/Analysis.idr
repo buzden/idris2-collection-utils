@@ -2,6 +2,8 @@ module Data.Collections.Analysis
 
 import Control.Monad.State
 
+import Data.Fin.Map
+import Data.Fin.Set
 import Data.Fin.ToFin
 import Data.List1
 import Data.SortedSet.Extra
@@ -43,7 +45,7 @@ holdsOnAnyInTrCl prop f xs = pure (any prop xs) || tr xs xs where
 
 -- Returns also original positions of `Left`'s
 export
-partitionEithersPos : Vect n (Either a b) -> (List a, List b, SortedSet $ Fin n)
+partitionEithersPos : {n : _} -> Vect n (Either a b) -> (List a, List b, FinSet n)
 partitionEithersPos = map @{Compose} fromList . p where
   p : forall n. Vect n (Either a b) -> (List a, List b, List $ Fin n)
   p []        = ([], [], empty)
@@ -54,7 +56,7 @@ partitionEithersPos = map @{Compose} fromList . p where
                   Right b => (   as, b::bs,     lefts)
 
 export
-joinEithersPos : (as : List a) -> (bs : List b) -> SortedSet (Fin $ as.length + bs.length) -> Maybe $ Vect (as.length + bs.length) $ Either a b
+joinEithersPos : (as : List a) -> (bs : List b) -> FinSet (as.length + bs.length) -> Maybe $ Vect (as.length + bs.length) $ Either a b
 joinEithersPos as bs lefts =
   evalState (as, bs) $ for @{Compose} range $ \idx => if contains idx lefts
     then do
@@ -73,21 +75,18 @@ joinEithersPos as bs lefts =
 -------------------------------
 
 export
-disjointDepSets : (rawDeps : DVect n $ SortedSet . Fin . Fin.finToNat) -> (givs : SortedSet $ Fin n) -> List $ SortedSet $ Fin n
+disjointDepSets : {n : _} -> (rawDeps : DVect n $ FinSet . Fin.finToNat) -> (givs : FinSet n) -> List $ FinSet n
 disjointDepSets rawDeps givs = do
 
   -- For each argument calculate the minimal index of its dependency (itself, if no dependencies)
-  let minDeps : DVect n (Fin . S . finToNat) :=
-       flip mapPreI rawDeps $ \i, pre =>
-         concatMap @{Minimum} (\j => weakenToSuper {i=FS j} $ rewrite sym $ weakenToSuper_correct {i} j in index j pre) .
-           (`difference` mapInMaybe tryToFit givs)
+  let minDeps = flip mapPreI rawDeps $ \i, pre => maybe last FS . leftMost . (`difference` fit givs)
 
   -- Get rid of dependent vector, weaken indices bounds
   let minDeps = downmap (weakenToSuper {i=FS _}) minDeps
 
   -- Reverse the map, i.e. for each minimal index get the set of arguments that depend on it
-  let minDeps : SortedMap (Fin $ S $ n) (SortedSet $ Fin n) :=
-    concatMap (uncurry SortedMap.singleton) $ map (mapSnd SortedSet.singleton) $ toListI $ minDeps
+  let minDeps : FinMap .| S n .| FinSet n :=
+    concatMap .| uncurry singleton .| mapSnd singleton <$> toListI minDeps
 
   -- Acquire a list of disjoint sets, which in each set all args dependent somehow, but args from different susets are independent
   Prelude.toList minDeps
@@ -113,14 +112,23 @@ permutations s = case fromList s.asList of
     es <- permutations $ assert_smaller s $ delete e s
     pure $ e :: es
 
+export
+permutationsFin : {n : _} -> FinSet n -> List1 $ List $ Fin n
+permutationsFin s = case fromList s.asList of
+  Nothing => pure []
+  Just ss => do
+    e  <- ss
+    es <- permutationsFin $ assert_smaller s $ delete e s
+    pure $ e :: es
+
 public export
 permutations' : Ord a => SortedSet a -> List $ List a
 permutations' = forget . permutations
 
 export
-indepPermutations : (independencyGroups : List $ SortedSet $ Fin n) -> SortedSet (Fin n) -> List1 $ List $ Fin n
-indepPermutations groups s = map concat $ for groups $ permutations . intersection s
+indepPermutations : {n : _} -> (independencyGroups : List $ FinSet n) -> FinSet n -> List1 $ List $ Fin n
+indepPermutations groups s = map concat $ for groups $ permutationsFin . intersection s
 
 public export %inline
-indepPermutations' : (independencyGroups : List $ SortedSet $ Fin n) -> SortedSet (Fin n) -> List $ List $ Fin n
+indepPermutations' : {n : _} -> (independencyGroups : List $ FinSet n) -> FinSet n -> List $ List $ Fin n
 indepPermutations' = forget .: indepPermutations
