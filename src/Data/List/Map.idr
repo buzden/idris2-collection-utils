@@ -4,6 +4,8 @@ import Data.List
 import Data.List.Set
 import Data.SortedMap
 
+%default total
+
 public export
 record ListMap k v where
   constructor MkListMap
@@ -108,6 +110,14 @@ export
 implementation Functor (ListMap k) where
   map f (MkListMap kv) = MkListMap $ map (map f) kv
 
+export
+mapWithKey : (k -> a -> b) -> ListMap k a -> ListMap k b
+mapWithKey f = (\(MkListMap vs) => MkListMap $ vs <&> \(k, v) => (k, f k v)) . normalise
+
+export %inline
+mapWithKey' : ListMap k a -> (k -> a -> b) -> ListMap k b
+mapWithKey' = flip mapWithKey
+
 ||| Merge two maps. When encountering duplicate keys, using a function to combine the values.
 ||| Uses the ordering of the first map given.
 export
@@ -133,6 +143,18 @@ mergeLeft (MkListMap @{eq} x) (MkListMap y) = MkListMap @{eq} $ x ++ y
 public export %inline
 toSortedMap : Ord k => ListMap k v -> SortedMap k v
 toSortedMap = fromList . kvList
+
+export
+Foldable (ListMap k) where
+  foldr f init = foldr f init . values
+  foldl f init = foldl f init . values
+  null $ MkListMap vs = null vs
+  foldlM f init = foldlM f init . values
+  toList = values
+
+export
+Traversable (ListMap k) where
+  traverse f $ MkListMap vs = MkListMap <$> traverse (traverse f) vs
 
 export
 Semigroup v => Semigroup (ListMap k v) where

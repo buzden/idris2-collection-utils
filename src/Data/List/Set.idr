@@ -81,3 +81,11 @@ Ord k => Monoid (ListSet k) where
 export
 Show k => Show (ListSet k) where
    show m = "fromList " ++ show (rawValues m)
+
+export
+Foldable ListSet where
+  foldr f init = foldr f init . (.asList)
+  foldl f init = foldl f init . (.asList)
+  null $ MkListSet vs = null vs
+  foldlM f init = foldlM f init . (.asList)
+  toList = (.asList)
