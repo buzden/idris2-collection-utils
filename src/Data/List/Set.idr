@@ -56,6 +56,10 @@ export
 difference : (x, y : ListSet v) -> ListSet v
 difference (MkListSet @{eq} xs) (MkListSet ys) = MkListSet @{eq} $ (xs \\ ys) @{eq}
 
+export %inline
+delete : v -> ListSet v -> ListSet v
+delete v (MkListSet @{eq} xs) = difference (MkListSet @{eq} xs) $ singleton v
+
 ||| Set symmetric difference. Uses the union of the differences.
 export
 symDifference : (x, y : ListSet v) -> ListSet v
