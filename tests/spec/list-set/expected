@@ -1,0 +1,21 @@
+━━━ ListSet ━━━
+  ✓ empty passed 10000 tests.
+  ✓ singleton passed 10000 tests.
+  ✓ insert passed 10000 tests.
+  ✓ union passed 10000 tests.
+  ✓ fromList passed 10000 tests.
+  ✓ delete passed 10000 tests.
+  ✓ difference passed 10000 tests.
+  ✓ symDifference passed 10000 tests.
+  ✓ intersection passed 10000 tests.
+  ✓ toSortedSet passed 10000 tests.
+  ✓ semigroup passed 10000 tests.
+  ✓ monoid passed 10000 tests.
+  ✓ null passed 10000 tests.
+  ✓ toList passed 10000 tests.
+  ✓ foldr passed 10000 tests.
+  ✓ foldl passed 10000 tests.
+  ✓ foldlM passed 10000 tests.
+  ✓ normalise idempotent passed 10000 tests.
+  ✓ normalise equal passed 10000 tests.
+  ✓ 19 succeeded.

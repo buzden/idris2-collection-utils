@@ -1,0 +1,28 @@
+━━━ ListMap ━━━
+  ✓ empty passed 10000 tests.
+  ✓ singleton passed 10000 tests.
+  ✓ insert passed 10000 tests.
+  ✓ insertWith passed 10000 tests.
+  ✓ insertFrom passed 10000 tests.
+  ✓ insertFromWith passed 10000 tests.
+  ✓ updateExisting passed 10000 tests.
+  ✓ fromList passed 10000 tests.
+  ✓ keys passed 10000 tests.
+  ✓ keySet passed 10000 tests.
+  ✓ values passed 10000 tests.
+  ✓ mapWithKey passed 10000 tests.
+  ✓ mergeWith passed 10000 tests.
+  ✓ merge passed 10000 tests.
+  ✓ mergeWithLeft passed 10000 tests.
+  ✓ toSortedMap passed 10000 tests.
+  ✓ semigroup passed 10000 tests.
+  ✓ monoid passed 10000 tests.
+  ✓ null passed 10000 tests.
+  ✓ toList passed 10000 tests.
+  ✓ foldr passed 10000 tests.
+  ✓ foldl passed 10000 tests.
+  ✓ foldlM passed 10000 tests.
+  ✓ traverse passed 10000 tests.
+  ✓ normalise_idempotent passed 10000 tests.
+  ✓ normalise_equal passed 10000 tests.
+  ✓ 26 succeeded.
