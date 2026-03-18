@@ -33,6 +33,8 @@ export
 singleton : Eq v => v -> ListSet v
 singleton = MkListSet . singleton
 
+||| Build a set from a list of values.
+||| When there are duplicate values, no guarantee is made about which value is kept.
 export
 fromList : Eq v => List v -> ListSet v
 fromList = MkListSet

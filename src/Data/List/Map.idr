@@ -72,6 +72,8 @@ public export %inline
 updateExisting' : ListMap k v -> (v -> v) -> k -> ListMap k v
 updateExisting' m f x = updateExisting f x m
 
+||| Build a map from a list of key-value pairs.
+||| When there are duplicate keys, the value from the last pair is used.
 public export %inline
 fromList : Eq k => List (k, v) -> ListMap k v
 fromList = MkListMap . reverse
