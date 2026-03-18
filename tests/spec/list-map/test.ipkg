@@ -1,0 +1,9 @@
+package spec-tests
+
+main = Spec
+executable = test
+
+builddir = ".build"
+
+depends = hedgehog
+        , collection-utils

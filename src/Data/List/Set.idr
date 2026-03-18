@@ -33,6 +33,8 @@ export
 singleton : Eq v => v -> ListSet v
 singleton = MkListSet . singleton
 
+||| Build a set from a list of values.
+||| When there are duplicate values, no guarantee is made about which value is kept.
 export
 fromList : Eq v => List v -> ListSet v
 fromList = MkListSet
@@ -54,17 +56,23 @@ union (MkListSet @{eq} xs) (MkListSet ys) = MkListSet @{eq} $ xs ++ ys
 ||| Keeps the equality specified by the left set.
 export
 difference : (x, y : ListSet v) -> ListSet v
-difference (MkListSet @{eq} xs) (MkListSet ys) = MkListSet @{eq} $ (xs \\ ys) @{eq}
+difference (MkListSet @{eq} xs) (MkListSet ys) =
+  MkListSet @{eq} $ filter (\x => not $ elem @{%search} @{eq} x ys) xs
 
-||| Set symmetric difference. Uses the union of the differences.
+export %inline
+delete : v -> ListSet v -> ListSet v
+delete v (MkListSet @{eq} xs) = difference (MkListSet @{eq} xs) $ singleton v
+
+||| Set symmetric difference. Keeps the equality specified by the left set.
 export
 symDifference : (x, y : ListSet v) -> ListSet v
 symDifference x y = union (difference x y) (difference y x)
 
-||| Set intersection. Implemented as the difference of the union and the symetric difference.
+||| Set intersection. Keeps the equality specified by the left set.
 export
 intersection : (x, y : ListSet v) -> ListSet v
-intersection x y = difference x (difference x y)
+intersection (MkListSet @{eq} xs) (MkListSet ys) =
+  MkListSet @{eq} $ filter (\x => elem @{%search} @{eq} x ys) xs
 
 public export %inline
 toSortedSet : Ord v => ListSet v -> SortedSet v

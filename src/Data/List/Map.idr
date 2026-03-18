@@ -72,9 +72,11 @@ public export %inline
 updateExisting' : ListMap k v -> (v -> v) -> k -> ListMap k v
 updateExisting' m f x = updateExisting f x m
 
+||| Build a map from a list of key-value pairs.
+||| When there are duplicate keys, the value from the last pair is used.
 public export %inline
 fromList : Eq k => List (k, v) -> ListMap k v
-fromList = MkListMap
+fromList = MkListMap . reverse
 
 ||| Returns the keys from the underlying list of key–value pairs
 ||| without removing duplicates or normalising the order.
@@ -125,7 +127,7 @@ mergeWith : (v -> v -> v) -> ListMap k v -> ListMap k v -> ListMap k v
 mergeWith f x y = insertFrom inserted x where
   inserted : List (k, v)
   inserted = do
-    (k, v) <- kvList y
+    (k, v) <- reverse $ kvList y
     let v' = (maybe id f $ lookup k x) v
     pure (k, v')
 
@@ -142,7 +144,7 @@ mergeLeft (MkListMap @{eq} x) (MkListMap y) = MkListMap @{eq} $ x ++ y
 
 public export %inline
 toSortedMap : Ord k => ListMap k v -> SortedMap k v
-toSortedMap = fromList . kvList
+toSortedMap = fromList . reverse . kvList
 
 export
 Foldable (ListMap k) where
@@ -168,4 +170,4 @@ export
 
 export
 (Show k, Show v) => Show (ListMap k v) where
-   show m = "fromList " ++ show (kvList m)
+   show m = "fromList " ++ show (reverse $ kvList m)
