@@ -54,7 +54,8 @@ union (MkListSet @{eq} xs) (MkListSet ys) = MkListSet @{eq} $ xs ++ ys
 ||| Keeps the equality specified by the left set.
 export
 difference : (x, y : ListSet v) -> ListSet v
-difference (MkListSet @{eq} xs) (MkListSet ys) = MkListSet @{eq} $ (xs \\ ys) @{eq}
+difference (MkListSet @{eq} xs) (MkListSet ys) =
+  MkListSet @{eq} $ filter (\x => not $ elem @{%search} @{eq} x ys) xs
 
 export %inline
 delete : v -> ListSet v -> ListSet v
