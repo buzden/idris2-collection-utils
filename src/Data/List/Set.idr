@@ -61,15 +61,16 @@ export %inline
 delete : v -> ListSet v -> ListSet v
 delete v (MkListSet @{eq} xs) = difference (MkListSet @{eq} xs) $ singleton v
 
-||| Set symmetric difference. Uses the union of the differences.
+||| Set symmetric difference. Keeps the equality specified by the left set.
 export
 symDifference : (x, y : ListSet v) -> ListSet v
 symDifference x y = union (difference x y) (difference y x)
 
-||| Set intersection. Implemented as the difference of the union and the symetric difference.
+||| Set intersection. Keeps the equality specified by the left set.
 export
 intersection : (x, y : ListSet v) -> ListSet v
-intersection x y = difference x (difference x y)
+intersection (MkListSet @{eq} xs) (MkListSet ys) =
+  MkListSet @{eq} $ filter (\x => elem @{%search} @{eq} x ys) xs
 
 public export %inline
 toSortedSet : Ord v => ListSet v -> SortedSet v
